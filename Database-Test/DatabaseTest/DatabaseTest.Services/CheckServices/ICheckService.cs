@@ -9,6 +9,5 @@ namespace EFCoreProject.Services.CheckServices
         CheckEntity GetById(long id);
         List<ProductEntity> GetProductsByCheckId(long checkId);
         bool Update(CheckEntity userEntity);
-        List<ProductEntity> GetProductsByBuyerCheckList(long checkId);
     }
 }

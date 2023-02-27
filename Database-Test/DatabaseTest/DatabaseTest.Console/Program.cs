@@ -147,10 +147,9 @@ namespace DatabaseTest
                     $"Прізвище покупця: {buyer.Surname}\n" +
                     $"Номер телефону: {buyer.Phone}\n" +
                     $"Дата народження: {buyer.BirthDate.ToLongDateString()}");
-
-                for (int c = 0; c < buyerService.GetCheckCounts(name, surname); c++)
+                for (int c = 1; c <= buyerService.GetCheckCounts(name, surname); c++)
                 {
-                    List<ProductEntity> products = buyerService.GetProductsByCheckId(name, surname, c);
+                    List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, c);
                     if (products != null)
                     {
                         List<int> count = new List<int>();
@@ -197,9 +196,9 @@ namespace DatabaseTest
             int countOfChecks = buyerService.GetCheckCounts(name, surname);
             if (countOfChecks > 0)
             {
-                for (int c = 0; c < countOfChecks; c++)
+                for (int c = 1; c <= countOfChecks; c++)
                 {
-                    List<ProductEntity> products = buyerService.GetProductsByCheckId(name, surname, c);
+                    List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, c);
                     if (products != null)
                     {
                         List<int> count = new List<int>();
@@ -247,7 +246,7 @@ namespace DatabaseTest
             Console.WriteLine("Введіть № чеку: ");
             int n = int.Parse(Console.ReadLine());
 
-            List<ProductEntity> products = buyerService.GetProductsByCheckId(name, surname, n);
+            List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, n);
 
             if (products != null)
             {

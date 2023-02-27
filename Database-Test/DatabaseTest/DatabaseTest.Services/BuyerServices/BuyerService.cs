@@ -33,6 +33,7 @@ namespace EFCoreProject.Services.BuyerServices
                 .Where(buyer => buyer.Name == name && 
                     buyer.Surname == surname)
                 .Include(buyer => buyer.Checks)
+                .ThenInclude(check => check.Products)
                 .FirstOrDefault()!;
 
             if (dbRecord == null)
@@ -53,13 +54,17 @@ namespace EFCoreProject.Services.BuyerServices
         public CheckEntity GetCheckFromBuyerCheckList(string name, string surname, int nuberCheckInList)
         {
             BuyerEntity buyer = GetByNameAndSurname(name, surname);
-            return buyer.Checks.ToList()[nuberCheckInList];
+            if (buyer == null)
+                return null;
+            return buyer.Checks.ToList()[nuberCheckInList-1];
         }
 
         public List<ProductEntity> GetProductsByBuyerCheckList(string name, string surname, int nuberCheckInList)
         {
             BuyerEntity buyer = GetByNameAndSurname(name, surname);
-            return buyer.Checks.ToList()[nuberCheckInList]
+            if (buyer == null)
+                return null;
+            return buyer.Checks.ToList()[nuberCheckInList-1]
                 .Products.ToList();
         }
 
