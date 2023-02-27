@@ -41,6 +41,14 @@ namespace EFCoreProject.Services.BuyerServices
             return dbRecord;
         }
 
+        public List<ProductEntity> GetProductsByCheckId(string name, string surname, int nuberCheckInList)
+        {
+            BuyerEntity buyer = GetByNameAndSurname(name, surname);
+            return buyer.Checks.ToList()[nuberCheckInList]
+                .Products.ToList();
+
+        }
+
         public bool Update(BuyerEntity buyerEntity)
         {
             try

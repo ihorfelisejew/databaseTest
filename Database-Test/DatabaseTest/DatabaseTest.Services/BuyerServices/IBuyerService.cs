@@ -9,5 +9,6 @@ namespace EFCoreProject.Services.BuyerServices
         BuyerEntity GetById(long id);
         BuyerEntity GetByNameAndSurname(string name, string surname);
         bool Update(BuyerEntity userEntity);
+        List<ProductEntity> GetProductsByCheckId(string name, string surname, int nuberCheckInList);
     }
 }

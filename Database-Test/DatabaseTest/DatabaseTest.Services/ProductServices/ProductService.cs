@@ -1,5 +1,6 @@
 ﻿using DatabaseTest.Database.Entities;
 using DatabaseTest.Database.GenericReposotiry;
+using EFCoreProject.Services.BuyerServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreProject.Services.ProductServices
@@ -18,6 +19,16 @@ namespace EFCoreProject.Services.ProductServices
 
         public List<ProductEntity> GetAllNoBuy()
         {
+            List<ProductEntity> dbRecord = _genericRepository.Table
+                .Where(products => !products.CheckFK.HasValue)
+                .ToList()!;
+
+            return dbRecord;
+        }
+
+        public List<ProductEntity> GetAllProducts()
+        {
+            //--------потрібно замінити це все
             List<ProductEntity> dbRecord = _genericRepository.Table
                 .Where(products => !products.CheckFK.HasValue)
                 .ToList()!;

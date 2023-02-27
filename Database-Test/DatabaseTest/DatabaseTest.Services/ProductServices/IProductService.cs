@@ -10,5 +10,7 @@ namespace EFCoreProject.Services.ProductServices
         ProductEntity GetByName(string name);
         bool Update(ProductEntity productEntity);
         List<ProductEntity> GetAllNoBuy();
+
+        List<ProductEntity> GetAllProducts();
     }
 }
