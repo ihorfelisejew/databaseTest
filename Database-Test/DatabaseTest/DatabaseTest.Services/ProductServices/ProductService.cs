@@ -13,7 +13,7 @@ namespace EFCoreProject.Services.ProductServices
             _genericRepository = genericRepository;
         }
 
-        public bool AddProductToCheck(long checkId, string productName)
+        public bool BuyProducts(long checkId, string productName)
         {
             ProductEntity dbRecord = GetByName(productName);
 

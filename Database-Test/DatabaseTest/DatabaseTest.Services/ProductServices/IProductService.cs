@@ -12,6 +12,6 @@ namespace EFCoreProject.Services.ProductServices
         List<ProductEntity> GetAllNoBuy();
 
         List<ProductEntity> GetAllProducts();
-        bool AddProductToCheck(long checkId, string productName);
+        bool BuyProducts(long checkId, string productName);
     }
 }

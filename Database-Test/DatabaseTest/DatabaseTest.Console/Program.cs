@@ -135,21 +135,17 @@ namespace DatabaseTest
         }
         static void CheckAllProductsWithDataAboutBuyer()
         {
-            Console.WriteLine("Введіть ім'я покупця: ");
-            string name = Console.ReadLine();
-            Console.WriteLine("Введіть прізвище покупця: ");
-            string surname = Console.ReadLine();
-
-            BuyerEntity buyer = buyerService.GetByNameAndSurname(name, surname);
-            if (buyer != null)
+            List<BuyerEntity> buyers = buyerService.GetAllBuyers();
+            foreach(BuyerEntity buyer in buyers)
             {
+                Console.WriteLine(new String('=', 80));
                 Console.WriteLine($"\n\nІм'я покупця: {buyer.Name}\n" +
-                    $"Прізвище покупця: {buyer.Surname}\n" +
-                    $"Номер телефону: {buyer.Phone}\n" +
-                    $"Дата народження: {buyer.BirthDate.ToLongDateString()}");
-                for (int c = 1; c <= buyerService.GetCheckCounts(name, surname); c++)
+                        $"Прізвище покупця: {buyer.Surname}\n" +
+                        $"Номер телефону: {buyer.Phone}\n" +
+                        $"Дата народження: {buyer.BirthDate.ToLongDateString()}");
+                for (int c = 0; c < buyer.Checks.Count; c++)
                 {
-                    List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, c);
+                    List<ProductEntity> products = checkService.GetProductsByCheckId(buyer.Checks.ToList()[c].Id);
                     if (products != null)
                     {
                         List<int> count = new List<int>();
@@ -165,7 +161,7 @@ namespace DatabaseTest
                             }
                         }
 
-                        Console.WriteLine($"\nОсь товари з чеку №{c}:");
+                        Console.WriteLine($"\nОсь товари з чеку №{c+1}:");
                         double summ = 0;
                         for (int i = 0; i < products.Count; i += count[i])
                         {
@@ -178,12 +174,9 @@ namespace DatabaseTest
                     {
                         Console.WriteLine("Дані вказані некоректно!");
                     }
-                    Console.WriteLine(new String('-', 20));
+                    Console.WriteLine("\n" + new String('-', 20));
                 }
-            }
-            else
-            {
-                Console.WriteLine("Такого покупця ще не було!");
+                Console.WriteLine(new String('=', 80));
             }
         }
         static void CheckAllProducts()
@@ -198,7 +191,7 @@ namespace DatabaseTest
             {
                 for (int c = 1; c <= countOfChecks; c++)
                 {
-                    List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, c);
+                    List<ProductEntity> products = buyerService.GetBuyedProducts(name, surname, c);
                     if (products != null)
                     {
                         List<int> count = new List<int>();
@@ -246,7 +239,7 @@ namespace DatabaseTest
             Console.WriteLine("Введіть № чеку: ");
             int n = int.Parse(Console.ReadLine());
 
-            List<ProductEntity> products = buyerService.GetProductsByBuyerCheckList(name, surname, n);
+            List<ProductEntity> products = buyerService.GetBuyedProducts(name, surname, n);
 
             if (products != null)
             {
@@ -319,7 +312,7 @@ namespace DatabaseTest
                 int countProduct = int.Parse(Console.ReadLine());
                 for (int j = 0; j < countProduct; j++)
                 {
-                    if(!productService.AddProductToCheck(check.Id, nameProduct))
+                    if(!productService.BuyProducts(check.Id, nameProduct))
                     {
                         Console.WriteLine("Даного товару немає в наявності!");
                         break;

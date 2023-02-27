@@ -59,7 +59,7 @@ namespace EFCoreProject.Services.BuyerServices
             return buyer.Checks.ToList()[nuberCheckInList-1];
         }
 
-        public List<ProductEntity> GetProductsByBuyerCheckList(string name, string surname, int nuberCheckInList)
+        public List<ProductEntity> GetBuyedProducts(string name, string surname, int nuberCheckInList)
         {
             BuyerEntity buyer = GetByNameAndSurname(name, surname);
             if (buyer == null)
@@ -80,6 +80,16 @@ namespace EFCoreProject.Services.BuyerServices
             {
                 return false;
             }
+        }
+
+        public List<BuyerEntity> GetAllBuyers()
+        {
+            List<BuyerEntity> buyers = _genericRepository.Table
+                .Include(buyers => buyers.Checks)
+                .ThenInclude(check => check.Products)
+                .ToList();
+
+            return buyers;
         }
     }
 }
