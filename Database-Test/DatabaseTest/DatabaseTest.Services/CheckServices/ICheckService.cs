@@ -7,7 +7,8 @@ namespace EFCoreProject.Services.CheckServices
     {
         void Create(CheckEntity buyerEntity);
         CheckEntity GetById(long id);
-        CheckEntity GetByBuyerFK(long buyerFK);
+        List<ProductEntity> GetProductsByCheckId(long checkId);
         bool Update(CheckEntity userEntity);
+        List<ProductEntity> GetProductsByBuyerCheckList(long checkId);
     }
 }

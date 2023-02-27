@@ -21,7 +21,7 @@ namespace EFCoreProject.Services.CheckServices
         {
             CheckEntity dbRecord = _genericRepository.Table
                 .Include(check => check.Products)
-                .FirstOrDefault(check => check.Id == id)!;
+                .FirstOrDefault(check => check.Id == id);
 
             if(dbRecord == null)
                 return null;
@@ -29,16 +29,10 @@ namespace EFCoreProject.Services.CheckServices
             return dbRecord;
         }
 
-        public CheckEntity GetByBuyerFK(long buyerFK)
+        public List<ProductEntity> GetProductsByCheckId(long checkId)
         {
-            CheckEntity dbRecord = _genericRepository.Table
-                .Where(check => check.BuyerFK == buyerFK)
-                .FirstOrDefault()!;
-
-            if (dbRecord == null)
-                return null;
-
-            return dbRecord;
+            CheckEntity check = GetById(checkId);
+            return check.Products.ToList();
         }
 
         public bool Update(CheckEntity checkEntity)

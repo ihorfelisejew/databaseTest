@@ -12,6 +12,18 @@ namespace EFCoreProject.Services.ProductServices
         {
             _genericRepository = genericRepository;
         }
+
+        public bool AddProductToCheck(long checkId, string productName)
+        {
+            ProductEntity dbRecord = GetByName(productName);
+
+            if (dbRecord == null)
+                return false;
+
+            dbRecord.CheckFK = checkId;
+            return Update(dbRecord);
+        }
+
         public void Create(ProductEntity productEntity)
         {
             _genericRepository.Create(productEntity);

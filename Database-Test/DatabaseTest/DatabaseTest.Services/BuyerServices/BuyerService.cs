@@ -41,12 +41,26 @@ namespace EFCoreProject.Services.BuyerServices
             return dbRecord;
         }
 
-        public List<ProductEntity> GetProductsByCheckId(string name, string surname, int nuberCheckInList)
+        public int GetCheckCounts(string name, string surname)
+        {
+            BuyerEntity buyer = GetByNameAndSurname(name, surname);
+            if (buyer == null)
+                return 0;
+            else
+                return buyer.Checks.Count;
+        }
+
+        public CheckEntity GetCheckFromBuyerCheckList(string name, string surname, int nuberCheckInList)
+        {
+            BuyerEntity buyer = GetByNameAndSurname(name, surname);
+            return buyer.Checks.ToList()[nuberCheckInList];
+        }
+
+        public List<ProductEntity> GetProductsByBuyerCheckList(string name, string surname, int nuberCheckInList)
         {
             BuyerEntity buyer = GetByNameAndSurname(name, surname);
             return buyer.Checks.ToList()[nuberCheckInList]
                 .Products.ToList();
-
         }
 
         public bool Update(BuyerEntity buyerEntity)
